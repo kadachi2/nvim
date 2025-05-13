@@ -1,5 +1,3 @@
-require("config.lazy")
-
 -- Setup vim
 vim.cmd("set expandtab")
 vim.cmd("set tabstop=2")
@@ -32,3 +30,4 @@ vim.api.nvim_create_autocmd(
       group = numbertogglegroup
     })
 
+require("config.lazy")
