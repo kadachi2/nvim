@@ -18,17 +18,27 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = require("lspconfig")
+      local lspconfig = vim.lsp.config
 
-      lspconfig.lua_ls.setup({})
-      lspconfig.rust_analyzer.setup {
+      -- Lua
+      vim.lsp.config['lua_ls'] = {
+        settings = {
+          Lua = {
+            diagnostics = { globals = { 'vim' } },
+            workspace = { checkThirdParty = "Disable" },
+          },
+        },
+      }
+
+      -- Rust
+      vim.lsp.config['rust_analyzer'] = {
         settings = {
           ['rust-analyzer'] = {
             check = {
-              command = "clippy"
+              command = "clippy",
             },
-            diagonostics = {
-              enable = true;
+            diagnostics = {
+              enable = true,
             },
             imports = {
               granularity = {
@@ -42,11 +52,13 @@ return {
               },
             },
             procMacro = {
-              enable = true
+              enable = true,
             },
-          }
-        }
+          },
+        },
       }
+
+      vim.lsp.enable({ 'lua_ls', 'rust_analyzer' })
     end,
   },
 }
