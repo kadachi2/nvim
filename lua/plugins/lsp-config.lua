@@ -7,6 +7,7 @@ return {
   },
   {
     "williamboman/mason-lspconfig.nvim",
+    dependencies = { "williamboman/mason.nvim" },
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "rust_analyzer",
@@ -18,8 +19,6 @@ return {
   {
     "neovim/nvim-lspconfig",
     config = function()
-      local lspconfig = vim.lsp.config
-
       -- Lua
       vim.lsp.config['lua_ls'] = {
         settings = {
@@ -58,7 +57,7 @@ return {
         },
       }
 
-      vim.lsp.enable({ 'lua_ls', 'rust_analyzer' })
+      vim.lsp.enable({ 'lua_ls', 'rust_analyzer', 'ruff' })
     end,
   },
 }
