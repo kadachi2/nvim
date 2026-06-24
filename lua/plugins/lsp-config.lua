@@ -12,6 +12,7 @@ return {
       require("mason-lspconfig").setup({
         ensure_installed = { "lua_ls", "rust_analyzer",
           "ruff",
+          "bashls",
         }
       })
     end,
@@ -57,7 +58,21 @@ return {
         },
       }
 
-      vim.lsp.enable({ 'lua_ls', 'rust_analyzer', 'ruff' })
+      -- Bash
+      vim.lsp.config['bashls'] = {
+        settings = {
+          bashIde = {
+            -- Use shellcheck for diagnostics (requires `shellcheck` on PATH)
+            shellcheckPath = 'shellcheck',
+            -- Only index files matching this glob in the workspace
+            globPattern = '*@(.sh|.inc|.bash|.command)',
+          },
+        },
+        -- Also attach to zsh files, not just sh/bash
+        filetypes = { 'sh', 'bash', 'zsh' },
+      }
+
+      vim.lsp.enable({ 'lua_ls', 'rust_analyzer', 'ruff', 'bashls' })
     end,
   },
 }
