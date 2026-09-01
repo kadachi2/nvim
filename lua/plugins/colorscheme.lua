@@ -12,10 +12,21 @@ return {
   -- }
 
   -- nightfox
+  -- {
+  --   "EdenEast/nightfox.nvim",
+  --   config = function()
+  --     vim.cmd.colorscheme "nightfox"
+  --   end,
+  -- }
+
+  -- gruvbox
   {
-    "EdenEast/nightfox.nvim",
+    "ellisonleao/gruvbox.nvim",
+    priority = 1000,
     config = function()
-      vim.cmd.colorscheme "nightfox"
+      vim.o.background = "dark"
+      require("gruvbox").setup({ contrast = "hard" })
+      vim.cmd.colorscheme("gruvbox")
     end,
   }
 }
