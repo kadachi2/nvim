@@ -1,16 +1,23 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  build = function()
-    require("nvim-treesitter.install").update({ with_sync = true })()
-  end,
+  branch = "main",
+  lazy = false,
+  build = ":TSUpdate",
   config = function()
-    local config = require("nvim-treesitter.configs")
-    config.setup({
-      ensure_installed = {"lua", "rust", "vim", "vimdoc", "markdown", "python", "query", "cmake", "cpp"},
-      sync_install = false,
-      highlight = { enable = true },
-      indent = { enable = true },
+    local ts = require("nvim-treesitter")
+    local languages = { "lua", "rust", "vim", "vimdoc", "markdown", "markdown_inline", "python", "query", "cmake", "cpp" }
+
+    ts.setup({})
+    ts.install(languages)
+
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("user_treesitter", { clear = true }),
+      callback = function(ev)
+        if not pcall(vim.treesitter.start, ev.buf) then
+          return
+        end
+        vim.bo[ev.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
     })
   end,
 }
-
